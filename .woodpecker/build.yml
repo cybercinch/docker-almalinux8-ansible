@@ -1,0 +1,33 @@
+variables:
+  - &platforms 'linux/arm64/v8,linux/amd64'
+  - &docker_creds
+    username: 
+      from_secret: ${CI_REPO_OWNER}
+    password:
+      from_secret: docker_password
+  - &pypi_creds
+    username: 
+      from_secret: hub_username_cybercinch
+    password:
+      from_secret: docker_password_cybercinch
+
+steps:
+  publish-docker-latest:
+    image: docker.io/cybercinch/woodpecker-plugin-depot
+    pull: true
+    group: docker
+    settings:
+      <<: *docker_creds
+      token: 
+        from_secret: depot_token
+      repo: cybercinch/docker-almalinux8-ansible
+      project: 8b4ht8th6p
+      dockerfile: Dockerfile
+      push: true
+      platforms: *platforms
+      tags: ["latest"]
+    when:
+      branch: ${CI_REPO_DEFAULT_BRANCH}
+      event: 
+        - push
+        - manual
