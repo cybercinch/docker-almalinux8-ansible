@@ -2,7 +2,7 @@ variables:
   - &platforms 'linux/arm64/v8,linux/amd64'
   - &docker_creds
     username: 
-      from_secret: ${CI_REPO_OWNER}
+      from_secret: docker_username
     password:
       from_secret: docker_password
   - &pypi_creds
